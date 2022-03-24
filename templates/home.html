@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+	/*[ Block2 ]
+///////////////////////////////////////////////////////////
+*/
+.block2-labelpromotion::before,
+.block2-labelsale::before,
+.block2-labelnew::before 
+{
+  z-index: 100;
+  font-family: Montserrat-Regular;
+  font-size: 12px;
+  color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 22px;
+  border-radius: 11px;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.block2-labelsale::before {
+  background-color: white;
+  color: #000;
+  content: 'Sale';
+}
+
+.block2-labelnew::before {
+  background-color: #007bff;
+  content: 'New';
+}
+
+.block2-labelpromotion::before{
+	background-color: #000;
+	content: 'Promotion';
+	width: 70px;
+  }
+
+  .btn-dark {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+
+.btn-outline-dark {
+    color: #000;
+    border-color: #000;
+}
+
+
+</style>
+
+	<!-- Slide1 -->
+	
+	<!-- New Product -->
+	<style>
+		.newproduct{
+			margin-bottom: 2px;
+			padding-bottom: 2px;
+		}
+	</style>
+	<section class="newproduct bgwhite p-t-45 p-b-105">
+		<div class="container">
+			<div class="sec-title p-b-60">
+				<h3 class="m-text5 t-center">
+					Featured Products
+				</h3>
+			</div>
+
+			<!-- Slide2 -->
+			<div class="wrap-slick2">
+				<div class="slick2">
+
+					{% for item in object_list %}
+					
+					<div class="item-slick2 p-l-15 p-r-15">
+						<!-- Block2 -->
+						<div class="block2">
+							
+							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label{{item.get_label_display}}">
+								<a href="{{item.get_absolute_url}}">
+								<img src="{{ item.image.url }}" alt="IMG-PRODUCT" 
+								style="height: 370px; width:100%; "></a>
+							   
+
+								<!-- <div class="block2-overlay trans-0-4">
+									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+									</a>
+	
+									
+								</div> -->
+							</div>
+							
+
+							<div class="block2-txt p-t-20">
+								<a href="{{item.get_absolute_url}}" class="block2-name dis-block s-text3 p-b-5" style="color: black;">
+									{{ item.title }}
+								</a>
+
+								{% if item.discount_price %}
+								<span class="block2-oldprice m-text7 p-r-5" style="color: black;">
+									${{ item.price }}
+								</span>
+
+								<span class="block2-newprice m-text8 p-r-5">
+									${{ item.discount_price }}
+								</span>
+								{% else %}
+								<span class="block2-price m-text6 p-r-5" style="color: black;">
+									${{ item.price }}
+								</span>
+								{% endif %}
+								
+
+								
+							</div>
+							
+						</div>
+					</div>
+				
+					{% endfor %}
+
+					
+				
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	
+
+	{% endblock content %}
+
+
+	

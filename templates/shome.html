@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Booking Form HTML Template</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+
+
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{% static 'css/shome.css'  %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+</head>
+
+<body>
+	<div id="booking" class="section">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="booking-cta">
+							<h1>Find The Perfect Mess For You</h1>
+
+						</div>
+					</div>
+					<div class="col-md-7 col-md-offset-1">
+						<div class="booking-form">
+							<form>
+                                <!-- first row containning Gender and Structure -->
+                                <div class="row"> 
+                                    <div class="col-md-6">
+                                        <p class="myform-label">Gender</p>
+                                        <div class="form-group">
+                                            <div class="form-checkbox">
+                                                
+                                                <label for="male">
+                                                    <input type="radio" id="male" name="Gender">
+                                                    <span></span>Male
+                                                </label>
+                                                <label for="female">
+                                                    <input type="radio" id="female" name="Gender">
+                                                    <span></span>Female
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="myform-label">Structure</p>
+                                        <div class="form-group">
+                                            <div class="form-checkbox">
+                                                
+                                                <label for="tin-shed">
+                                                    <input type="radio" id="tin-shed" name="Structure">
+                                                    <span></span>Tin-shed
+                                                </label>
+                                                <label for="Single Storey">
+                                                    <input type="radio" id="Single Storey" name="Structure">
+                                                    <span></span>Single Storey
+                                                </label>
+												<label for="Multi-storey">
+                                                    <input type="radio" id="Multi-storey" name="Structure">
+                                                    <span></span>Multi-storey
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2nd row containning Gender and Structure -->
+                                <div class="row"> 
+                                    <div class="col-md-6">
+                                        <p class="myform-label">NO. Bed</p>
+                                        <div class="form-group">
+                                            <div class="form-checkbox">
+                                                
+                                                <label for="1">
+                                                    <input type="radio" id="1" name="1">
+                                                    <span></span>1
+                                                </label>
+                                                <label for="2">
+                                                    <input type="radio" id="2" name="1">
+                                                    <span></span>2
+                                                </label>
+                                                <label for="3">
+                                                    <input type="radio" id="3" name="3">
+                                                    <span></span>3
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="myform-label">Meal System</p>
+                                        <div class="form-group">
+                                            <div class="form-checkbox">
+                                                
+                                                <label for="Bati">
+                                                    <input type="radio" id="bati" name="meal-system">
+                                                    <span></span>Bati
+                                                </label>
+                                                <label for="Meal">
+                                                    <input type="radio" id="Meal" name="meal-system">
+                                                    <span></span>Meal
+                                                </label>
+                                                <label for="own">
+                                                    <input type="radio" id="own" name="meal-system">
+                                                    <span></span>On Your Own
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  -->
+                                
+                                <!--  -->
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<span class="form-label">Minimum Budget</span>
+											<input class="form-control" type="text" placeholder="400">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<span class="form-label">Maximum Budget</span>
+											<input class="form-control" type="text" placeholder="1000">
+										</div>
+									</div>
+								</div>
+								<!-- <div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<span class="form-label">Departing</span>
+											<input class="form-control" type="date" required>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<span class="form-label">Returning</span>
+											<input class="form-control" type="date" required>
+										</div>
+									</div>
+								</div> -->
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<span class="form-label">Total mess students</span>
+											<select class="form-control">
+												<option>10+</option>
+												<option>20+</option>
+												<option>50+</option>
+                                                <option>100+</option>
+											</select>
+											<span class="select-arrow"></span>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<span class="form-label">Distance from campus</span>
+											<select class="form-control">
+												<option>Less than 5 mins</option>
+												<option>Less than 10 mins</option>
+												<option>Less than 20 mins</option>
+                                                <option>More than 20 mins</option>
+											</select>
+											<span class="select-arrow"></span>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<span class="form-label">Region</span>
+											<select class="form-control">
+												<option>Karnai</option>
+												<option>Mohabalipur</option>
+												<option>Suvra</option>
+                                                <option>Other</option>
+											</select>
+											<span class="select-arrow"></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-btn">
+									<button class="submit-btn">Show Available Mess</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
