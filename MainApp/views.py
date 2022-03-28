@@ -1,3 +1,8 @@
+from email import message
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -6,7 +11,7 @@ from MainApp.models import *
 from .forms import *
 
 
-def index(request):
+def shome(request):
 
     return render(request, "shome.html", {})
 
@@ -72,56 +77,78 @@ def OwnerRegister(request):
         formowner = OwnerForm(request.POST, request.FILES)
 
         # print('printing request.post ')
-        print(request.POST)
-        if formbasic.is_valid():
+        # print(request.POST)
+        if formbasic.is_valid() and formowner.is_valid():
             form_b = formbasic.save(commit=False)
             form_b.is_student = False
-            print("-------Printing form_b--------")
+            # print("-------Printing form_b--------")
             print(type(form_b))
             form_b.save()
-            print(formbasic.cleaned_data.get("email"))
+            # print(formbasic.cleaned_data.get("email"))
 
             # print(type(form_b))
-        else:
-            print("basic invalid")
-            for field in formbasic:
-                for error in field.errors:
-                    print(error)
-        print("..........Custom User Obejct........")
-        print(
-            CustomUser.objects.filter(email=formbasic.cleaned_data.get("email")).first()
-        )
 
-        if formowner.is_valid():
             form_o = formowner.save(commit=False)
 
             form_o.user = form_b
             form_o.save()
             print("form owner successfully saved")
+            return redirect("login")
         else:
-            print("owner invalid")
+            if not formbasic.is_valid():
+                print("basic invalid")
+            if not formowner.is_valid():
+                print("owner invalid")
+
             for field in formowner:
                 for error in field.errors:
                     print(error)
 
-        return render(
-            request,
-            "owner_register.html",
-            {"formbasic": formbasic, "formowner": formowner},
-        )
+            for field in formbasic:
+                for error in field.errors:
+                    print(error)
+
+            return render(
+                request,
+                "owner_register.html",
+                {"formbasic": formbasic, "formowner": formowner},
+            )
 
     dic = {"formbasic": RegisterForm, "formowner": OwnerForm}
 
     return render(request, "owner_register.html", context=dic)
 
 
-def login(request):
-    # if request.method == "POST":
-
+def loginpage(request):
+    message = ""
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        print(email, password)
+        user = authenticate(request, username=email, password=password)
+        print(user)
+        print(type(user))
+        if user is not None:
+            login(request, user)
+            return redirect("ohome")
+        else:
+            messages.info(request, "Email or Password is Incorrect")
     return render(request, "login.html", {})
 
 
-def results(request):
-    result = Room.objects.all()
+@login_required(login_url="/login")
+def ohome(request):
+    return render(request, "ohome.html", {})
 
-    return render(request, "result.html", {"result": result})
+
+@login_required(login_url="/login")
+def logoutpage(request):
+    logout(request)
+    return redirect("login")
+
+
+@login_required(login_url="/login")
+def results(request):
+    room_list = Room.objects.all()
+
+    return render(request, "result.html", {"room_list": room_list})

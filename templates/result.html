@@ -1,62 +1,72 @@
-{% extends 'base.html'%} 
-{% load static%}
- {% block title%}Results{%endblock title%} 
- {%block content%}
-<div class="container">
-{% for i in result %}
-    <div class="row my-5 mx-1">
+{% extends 'base.html' %}
+{% load static %}
 
-        <div class="col-sm-12 col-lg-4 col-md-6">
+{% block head%}
+<link type="text/css" rel="stylesheet" href="{% static 'css/result.css'  %}" />
 
-            <div class="card" style="width: 18rem">
-                <img class="card-img-top" src="{{i.picture.url}}" alt="Card image cap" />
-                <div class="card-body">
-                    <h5 class="card-title">{{i.mess}}</h5>
-                    <p class="card-text">
-                        <strong>Rent: {{i.price}}</strong><br>
-                        <strong>Bed: {{i.bed_num}}</strong><br>
-                        <strong>Room No. {{i.room_no}}</strong>
-                        <strong>Room Rating {{i.room_rating}}</strong>
-                        <strong>Mess Rating {{i.mess_rating}}</strong>
-                        <strong>Mess Rating {{i.mess_rating}}</strong>
-                        <!-- <img src="/media/"{i.mess.image} alt=""> -->
-                    </p>
-                    
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-12 col-lg-4 col-md-6">
-
-            <div class="card" style="width: 18rem">
-                <img class="card-img-top" src="..." alt="Card image cap" />
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the
-                        bulk of the card's content.
-                    </p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
+{% endblock head%}
 
 
-        <div class="col-sm-12 col-lg-4 col-md-6">
-
-            <div class="card" style="width: 18rem">
-                <img class="card-img-top" src="..." alt="Card image cap" />
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the
-                        bulk of the card's content.
-                    </p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
+{% block content%}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 ttl">
+            <h1>Rooms For You</h1>
         </div>
     </div>
-{%endfor%}
+    <div class="row shop_container">
+
+        {% for room in room_list %}
+
+        <div class="col-lg-4 col-md-6 col-12">
+            <div class="product">
+                <div class="product-img">
+                    <a href="shop-product-detail.html">
+                        <img class="img-thumbnail" src="{{room.image1.url}}" alt="product_img1">
+                    </a>
+
+                </div>
+
+                <div class="product_info">
+                    <h3 class="font-weight-bold text-capitalize mess-name"><a href="shop-product-detail.html" style="font-family: Arial, Helvetica, sans-serif;">{{room.mess.name}}</a></h3>
+                    <div class="row">
+                        <div class="col">
+                            <span class="price">৳{{room.price}} per bed</span> <br>
+
+                            <span class="">{{room.bed_num}} beds</span> <br>
+                            <span class="">Room No. {{room.room_no}}</span> <br>
+                            <span class="">{{room.floor}} Floor</span> <br>
+                            {% if room.status%}
+                            <span style="color: rgb(0, 126, 82);">Available</span> <br>
+                            {% else %}
+                            <span style="color: rgb(219, 56, 15);">Unvailable</span> <br>
+                            {% endif%}
+                        </div>
+                        <div class="col">
+                            <span class="region">For {{room.mess.get_gender_display}} </span> <br>
+
+                            <span class="">{{room.mess.get_region_display}} area</span> <br>
+                            <span class="">Meal System: {{room.mess.get_cooking_system_display}}</span> <br>
+
+
+                            <span>Structure: {{room.mess.get_structure_display}}</span> <br>
+
+                            <span>{{room.mess.students_num}} students</span> <br>
+                            <span>{{room.mess.distance}} meters</span> <br>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+    </div>
 </div>
-{%endblock content%}
+
+
+{% endblock content%}
