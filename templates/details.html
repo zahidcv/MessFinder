@@ -1,0 +1,100 @@
+{%extends 'base.html'%}
+{% load static%}
+
+{%block title%}
+Room Details
+{%endblock title%}
+
+{%block head%}
+
+
+
+<link type="text/css" rel="stylesheet" href="{% static 'css/details.css'  %}" />
+{%endblock head%}
+
+
+
+{%block content%}
+
+
+<div class="container">
+    <div class="col-lg-8 border p-3 main-section bg-white">
+        <div class="row hedding m-0 pl-3 pt-0 pb-3">
+            <h2>{{room.mess.name }}</h2>
+        </div>
+        <div class="row m-0">
+            <div class="col-lg-4 left-side-product-box pb-3">
+                <img src="{{room.image1.url}}" class="border p-3">
+                <span class="sub-img">
+                    <img src="{{room.image2.url}}" class="border p-2">
+                    <img src="{{room.image3.url}}" class="border p-2">
+
+                </span>
+            </div>
+            <div class="col-lg-8">
+                <div class="right-side-pro-detail border p-3 m-0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span></span>
+                            <p class="m-0 p-0">Room No. {{room.room_no}}</p>
+                        </div>
+                        <div class="col-lg-12">
+                            <p class="m-0 p-0 price-pro">৳{{room.price}} per bed</p>
+                            <hr class="p-0 m-0">
+                        </div>
+                        <div class="col-lg-12 pt-2">
+                            <h5>Product Detail:</h5>
+                            <div class="row">
+                                <div class="col left-col">
+
+                                    <span class="">{{room.bed_num}} beds</span> <br>
+
+                                    <span class="">{{room.floor}} Floor</span> <br>
+                                    <span class="region">For {{room.mess.get_gender_display}} </span> <br>
+                                    {% if room.status%}
+                                    <span style="color: rgb(0, 126, 82);">Available</span> <br>
+                                    {% else %}
+                                    <span style="color: rgb(219, 56, 15);">Unvailable</span> <br>
+                                    {% endif%}
+                                </div>
+                                <div class="col ">
+
+
+                                    <span class="">{{room.mess.get_region_display}} area</span> <br>
+                                    <span class="">Meal System: {{room.mess.get_cooking_system_display}}</span> <br>
+
+
+                                    <span>Structure: {{room.mess.get_structure_display}}</span> <br>
+
+                                    <span>{{room.mess.students_num}} students</span> <br>
+                                    <span>{{room.mess.distance}} meters</span> <br>
+                                </div>
+                            </div>
+                            <!-- -->
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center pt-3">
+                <h4>Reviews:</h4>
+            </div>
+        </div>
+        {% for comment in comments %}
+        <div class="row my-1">
+            <div class="room-comment col-lg-12 py-1">
+                <span class='username'>{{comment.user.name}}</span> <br>
+                {{comment.content}}
+                <hr>
+
+            </div>
+
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{%endblock content%}

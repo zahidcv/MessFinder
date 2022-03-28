@@ -152,3 +152,9 @@ def results(request):
     room_list = Room.objects.all()
 
     return render(request, "result.html", {"room_list": room_list})
+
+
+def details(request, id):
+    room = Room.objects.get(id=id)
+    comments = Comment.objects.filter(room=room)
+    return render(request, "details.html", {"room": room, "comments": comments})

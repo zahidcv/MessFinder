@@ -1,11 +1,13 @@
 # from socket import fromshare
 # from attr import fields
+# from attr import fields
+from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import *
 from django.db import transaction
 from django.forms import ModelForm
-from django import forms
+
+from .models import *
 
 # from .models import Owner
 # class OwnerForm(UserCreationForm):
@@ -15,7 +17,7 @@ from django import forms
 
 
 class RegisterForm(UserCreationForm):
-    
+
     # sid         = forms.IntegerField(label="Student Id", required=True)
 
     # department  = forms.CharField(max_length=150, required=True)
@@ -26,23 +28,23 @@ class RegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields= ('email', 'password1', 'password2','name', 'number')
+        fields = ("email", "password1", "password2", "name", "number")
 
         widgets = {
-            'username': forms.TextInput(attrs={
-                        'class':'form-control',
-                        'placeholder':'Email Address',
-                }), 
-
-
+            "username": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Email Address",
+                }
+            ),
         }
-
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
 
-        for fieldname in ['email', 'password1', 'password2']:
+        for fieldname in ["email", "password1", "password2"]:
             self.fields[fieldname].help_text = None
+
     # # @transaction.atomic
     # def save(self):
     #     user = super().save(commit=False)
@@ -50,13 +52,21 @@ class RegisterForm(UserCreationForm):
     #     user.save()
     #     student = Student.objects.create(user=user, sid = self.sid, department = self.department, id_card_pic = self.id_card_pic, fb_profile = self.fb_profile)
     #     return user
+
+
 class StudentForm(ModelForm):
     class Meta:
         model = Student
-        fields = ('sid', 'fb_profile', 'id_card_pic', 'department')
+        fields = ("sid", "fb_profile", "id_card_pic", "department")
 
 
 class OwnerForm(ModelForm):
     class Meta:
         model = Owner
-        fields = ('nid_card_pic',)
+        fields = ("nid_card_pic",)
+
+
+class MessForm(ModelForm):
+    class Meta:
+        model = Mess
+        fields = "__all__"
