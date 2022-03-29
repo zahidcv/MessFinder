@@ -115,7 +115,7 @@ class Owner(models.Model):
 class Mess(models.Model):
 
     region_choices = ((1, "Mohabolipur"), (2, "Suvra"), (3, "Kornai"), (4, "BKSP"))
-    gender_choices = ((1, "Male"), (2, "Female"))
+    gender_choices = ((1, "Male"), (0, "Female"))
     cooking_system_choices = ((1, "Meal"), (2, "Bati"), (3, "On Your Own"))
     structure_choices = ((1, "Multi-storey"), (2, "Single-storey"), (3, "Tin Shed"))
 
@@ -124,7 +124,7 @@ class Mess(models.Model):
     owner = models.OneToOneField(Owner, on_delete=models.CASCADE)
     region = models.IntegerField(choices=region_choices)
     gender = models.IntegerField(choices=gender_choices)
-    cooking_system = models.IntegerField(choices=cooking_system_choices)
+    meal_system = models.IntegerField(choices=cooking_system_choices)
     structure = models.IntegerField(choices=structure_choices)
     students_num = models.IntegerField()
     image1 = models.ImageField(upload_to="Room_Gallery", null=True)

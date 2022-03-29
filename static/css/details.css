@@ -13,11 +13,29 @@
 }
 .username {
   color: #e45641;
+  text-transform: capitalize;
 }
 hr {
   width: auto;
   height: 1px;
   box-shadow: 1px 1px 1px lightblue;
+}
+
+a {
+  color: #324752;
+  text-decoration: none;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a:hover {
+  color: #e05164;
+  text-decoration: none;
+}
+
+a:focus {
+  outline: none;
 }
 /*  */
 

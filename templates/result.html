@@ -5,8 +5,9 @@
 <link type="text/css" rel="stylesheet" href="{% static 'css/result.css'  %}" />
 
 {% endblock head%}
-
-
+{%block title%}
+Results
+{%endblock title%}
 {% block content%}
 <div class="container-fluid">
     <div class="row">
@@ -21,14 +22,14 @@
         <div class="col-lg-4 col-md-6 col-12">
             <div class="product">
                 <div class="product-img">
-                    <a href="details/{{room.id}}">
+                    <a href="/room/{{room.id}}">
                         <img class="img-thumbnail" src="{{room.image1.url}}" alt="product_img1">
                     </a>
 
                 </div>
 
                 <div class="product_info">
-                    <h3 class="font-weight-bold text-capitalize mess-name"><a href="details/{{room.id}}" style="font-family: Arial, Helvetica, sans-serif;">{{room.mess.name}}</a></h3>
+                    <h3 class="font-weight-bold text-capitalize mess-name"><a href="/room/{{room.id}}" style="font-family: Arial, Helvetica, sans-serif;">{{room.mess.name}}</a></h3>
                     <div class="row">
                         <div class="col">
                             <span class="price">৳{{room.price}} per bed</span> <br>
@@ -46,7 +47,7 @@
                             <span class="region">For {{room.mess.get_gender_display}} </span> <br>
 
                             <span class="">{{room.mess.get_region_display}} area</span> <br>
-                            <span class="">Meal System: {{room.mess.get_cooking_system_display}}</span> <br>
+                            <span class="">Meal System: {{room.mess.get_meal_system_display}}</span> <br>
 
 
                             <span>Structure: {{room.mess.get_structure_display}}</span> <br>

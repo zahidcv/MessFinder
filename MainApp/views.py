@@ -1,8 +1,10 @@
+from ctypes import Structure
 from email import message
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -149,12 +151,63 @@ def logoutpage(request):
 
 @login_required(login_url="/login")
 def results(request):
-    room_list = Room.objects.all()
+    if request.method == "POST":
+        form_data = request.POST.dict()
+        # preferences
+        bed_num = form_data["bed_num"]
+        min_price = form_data["min_price"]
+        max_price = form_data["max_price"]
+        gender = form_data["gender"]
+        structure = form_data["structure"]
+        meal_system = form_data["meal_system"]
+        region = form_data["region"]
+        students = form_data["students"]
+        distance = form_data["distance"]
 
-    return render(request, "result.html", {"room_list": room_list})
+        print(
+            bed_num,
+            min_price,
+            max_price,
+            gender,
+            structure,
+            meal_system,
+            region,
+            students,
+            distance,
+        )
+
+        room_list = Room.objects.filter(
+            bed_num=bed_num,
+            price__gte=min_price,
+            price__lte=max_price,
+            mess__gender=gender,
+            mess__structure=structure,
+            mess__meal_system=meal_system,
+            mess__region=region,
+            mess__students_num__lte=students,
+            mess__distance__lte=distance,
+        )
+        print(model_to_dict(Room.objects.get(id=7)))
+        print(model_to_dict(Mess.objects.get(id=3)))
+        return render(request, "result.html", {"room_list": room_list})
+    return render(request, "result.html", {"room_list": Room.objects.all()})
+    # return HttpResponse("Form is not Post")
 
 
-def details(request, id):
+@login_required(login_url="/login")
+def room_details(request, id):
     room = Room.objects.get(id=id)
     comments = Comment.objects.filter(room=room)
     return render(request, "details.html", {"room": room, "comments": comments})
+
+
+def mess_details(request, id):
+    return HttpResponse("mess details page")
+
+
+def add_mess(request):
+    pass
+
+
+def add_room(request):
+    pass

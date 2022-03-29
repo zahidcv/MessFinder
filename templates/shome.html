@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>Booking Form HTML Template</title>
+	<title>Search your Mess</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
@@ -17,7 +17,7 @@
 
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="{% static 'css/shome.css'  %}" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -40,108 +40,113 @@
 					</div>
 					<div class="col-md-7 col-md-offset-1">
 						<div class="booking-form">
-							<form>
-                                <!-- first row containning Gender and Structure -->
-                                <div class="row"> 
-                                    <div class="col-md-6">
-                                        <p class="myform-label">Gender</p>
-                                        <div class="form-group">
-                                            <div class="form-checkbox">
-                                                
-                                                <label for="male">
-                                                    <input type="radio" id="male" name="Gender">
-                                                    <span></span>Male
-                                                </label>
-                                                <label for="female">
-                                                    <input type="radio" id="female" name="Gender">
-                                                    <span></span>Female
-                                                </label>
+							<form method="POST" action={% url 'results' %}>
+								{% csrf_token %}
+								<!-- first row containning Gender and Structure -->
+								<div class="row">
+									<div class="col-md-6">
+										<p class="myform-label">Gender</p>
+										<div class="form-group">
+											<div class="form-checkbox">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="myform-label">Structure</p>
-                                        <div class="form-group">
-                                            <div class="form-checkbox">
-                                                
-                                                <label for="tin-shed">
-                                                    <input type="radio" id="tin-shed" name="Structure">
-                                                    <span></span>Tin-shed
-                                                </label>
-                                                <label for="Single Storey">
-                                                    <input type="radio" id="Single Storey" name="Structure">
-                                                    <span></span>Single Storey
-                                                </label>
+												<label for="male">
+													<input type="radio" id="male" name="gender" value="1">
+													<span></span>Male
+												</label>
+												<label for="female">
+													<input type="radio" id="female" name="gender" value="0">
+													<span></span>Female
+												</label>
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<p class="myform-label">Structure</p>
+										<div class="form-group">
+											<div class="form-checkbox">
+
+												<label for="tin-shed">
+													<input type="radio" id="tin-shed" name="structure" value="3">
+													<span></span>Tin-shed
+												</label>
+												<label for="Single Storey">
+													<input type="radio" id="Single Storey" name="structure" value="2">
+													<span></span>Single Storey
+												</label>
 												<label for="Multi-storey">
-                                                    <input type="radio" id="Multi-storey" name="Structure">
-                                                    <span></span>Multi-storey
-                                                </label>
+													<input type="radio" id="Multi-storey" name="structure" value="1">
+													<span></span>Multi-storey
+												</label>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+											</div>
+										</div>
+									</div>
+								</div>
 
-                                <!-- 2nd row containning Gender and Structure -->
-                                <div class="row"> 
-                                    <div class="col-md-6">
-                                        <p class="myform-label">NO. Bed</p>
-                                        <div class="form-group">
-                                            <div class="form-checkbox">
-                                                
-                                                <label for="1">
-                                                    <input type="radio" id="1" name="1">
-                                                    <span></span>1
-                                                </label>
-                                                <label for="2">
-                                                    <input type="radio" id="2" name="1">
-                                                    <span></span>2
-                                                </label>
-                                                <label for="3">
-                                                    <input type="radio" id="3" name="3">
-                                                    <span></span>3
-                                                </label>
+								<!-- 2nd row containning Gender and Structure -->
+								<div class="row">
+									<div class="col-md-6">
+										<p class="myform-label">NO. Bed</p>
+										<div class="form-group">
+											<div class="form-checkbox">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="myform-label">Meal System</p>
-                                        <div class="form-group">
-                                            <div class="form-checkbox">
-                                                
-                                                <label for="Bati">
-                                                    <input type="radio" id="bati" name="meal-system">
-                                                    <span></span>Bati
-                                                </label>
-                                                <label for="Meal">
-                                                    <input type="radio" id="Meal" name="meal-system">
-                                                    <span></span>Meal
-                                                </label>
-                                                <label for="own">
-                                                    <input type="radio" id="own" name="meal-system">
-                                                    <span></span>On Your Own
-                                                </label>
+												<label for="onebed">
+													<input type="radio" id="onebed" name="bed_num" value="1">
+													<span></span>1
+												</label>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--  -->
-                                
-                                <!--  -->
+												<label for="twobed">
+													<input type="radio" id="twobed" name="bed_num" value="2">
+													<span></span>2
+												</label>
+
+												<label for="threebed">
+													<input type="radio" id="threebed" name="bed_num" value="3">
+													<span></span>3
+												</label>
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<p class="myform-label">Meal System</p>
+										<div class="form-group">
+											<div class="form-checkbox">
+
+												<label for="bati">
+													<input type="radio" id="bati" name="meal_system" , value="2">
+													<span></span>Bati
+												</label>
+
+												<label for="meal">
+													<input type="radio" id="meal" name="meal_system" value="1">
+													<span></span>Meal
+												</label>
+
+												<label for="own">
+													<input type="radio" id="own" name="meal_system" value="3">
+													<span></span>On Your Own
+												</label>
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--  -->
+
+								<!--  -->
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
 											<span class="form-label">Minimum Budget</span>
-											<input class="form-control" type="text" placeholder="400">
+											<input class="form-control" type="text" placeholder="400" name='min_price'>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<span class="form-label">Maximum Budget</span>
-											<input class="form-control" type="text" placeholder="1000">
+											<input class="form-control" type="text" placeholder="1000" name='max_price'>
 										</div>
 									</div>
 								</div>
@@ -163,23 +168,23 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<span class="form-label">Total mess students</span>
-											<select class="form-control">
-												<option>10+</option>
-												<option>20+</option>
-												<option>50+</option>
-                                                <option>100+</option>
+											<select class="form-control" name="students">
+												<option value="10">10-</option>
+												<option value="20">20-</option>
+												<option value="50">50-</option>
+												<option value="100">100-</option>
 											</select>
 											<span class="select-arrow"></span>
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<span class="form-label">Distance from campus</span>
-											<select class="form-control">
-												<option>Less than 5 mins</option>
-												<option>Less than 10 mins</option>
-												<option>Less than 20 mins</option>
-                                                <option>More than 20 mins</option>
+											<span class="form-label">Dist. from Main Gate</span>
+											<select class="form-control" name="distance">
+												<option value="100">Within 100 m</option>
+												<option value="500">within 500 m</option>
+												<option value="1000">withing 1 km</option>
+												<option value="2000">withing 5 km</option>
 											</select>
 											<span class="select-arrow"></span>
 										</div>
@@ -187,18 +192,18 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<span class="form-label">Region</span>
-											<select class="form-control">
-												<option>Karnai</option>
-												<option>Mohabalipur</option>
-												<option>Suvra</option>
-                                                <option>Other</option>
+											<select class="form-control" name="region">
+												<option value="3">Kornai</option>
+												<option value="1">Mohabalipur</option>
+												<option value="2">Suvra</option>
+												<option value="4">Other</option>
 											</select>
 											<span class="select-arrow"></span>
 										</div>
 									</div>
 								</div>
 								<div class="form-btn">
-									<button class="submit-btn">Show Available Mess</button>
+									<input type="submit" value="Search" class="submit-btn">
 								</div>
 							</form>
 						</div>
