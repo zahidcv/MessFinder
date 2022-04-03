@@ -6,6 +6,16 @@ from .models import *
 # Register your models here.
 
 
+class OwnerAdmin(admin.ModelAdmin):
+    readonly_fields = ("id",)
+
+
+# class StudentAdmin(admin.ModelAdmin):
+#     readonly_fields = ('id',)
+# class OwnerAdmin(admin.ModelAdmin):
+#     readonly_fields = ('id',)
+# class OwnerAdmin(admin.ModelAdmin):
+#     readonly_fields = ('id',)
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (
@@ -78,7 +88,7 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(CustomUser, UserAdmin)
 
-admin.site.register(Owner)
+admin.site.register(Owner, OwnerAdmin)
 admin.site.register(Student)
 admin.site.register(Mess)
 admin.site.register(Room)

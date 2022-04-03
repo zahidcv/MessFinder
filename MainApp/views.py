@@ -131,16 +131,37 @@ def loginpage(request):
         print(user)
         print(type(user))
         if user is not None:
+            print("User Id:", user.id)
             login(request, user)
-            return redirect("ohome")
+            if user.is_student:
+                return redirect("shome")
+            else:
+                return redirect("ohome/" + str(user.id))
         else:
             messages.info(request, "Email or Password is Incorrect")
     return render(request, "login.html", {})
 
 
 @login_required(login_url="/login")
-def ohome(request):
-    return render(request, "ohome.html", {})
+def ohome(request, id):
+    # print("id", id)
+    user = CustomUser.objects.get(id=id)
+    print("user", user)
+    # print("user.is_student", user.is_student)
+    owner = Owner.objects.get(user=user)
+    print("owner", type(owner))
+    mess = Mess.objects.filter(owner=owner).first()
+    print("mess", mess)
+    rooms = Room.objects.filter(mess=mess)
+    return render(
+        request,
+        "ohome.html",
+        {
+            "owner": owner,
+            "mess": mess,
+            "rooms": rooms,
+        },
+    )
 
 
 @login_required(login_url="/login")
@@ -211,3 +232,64 @@ def add_mess(request):
 
 def add_room(request):
     pass
+
+
+def mess_details(request, id):
+    mess = Mess.objects.get(id=id)
+    rooms = Room.objects.filter(mess=mess)
+    return render(request, "mess_details.html", {"mess": mess, "rooms": rooms})
+
+
+@login_required(login_url="/login")
+def update_room(request, id):
+    room = Room.objects.get(id=id)
+    form = RoomForm(instance=room)
+    if request.method == "POST":
+        form = RoomForm(request.POST, instance=room)
+        if form.is_valid():
+            form.save()
+            return redirect("room_details", id=id)
+        else:
+            print("form is invalid")
+            for error in form.errors:
+                print(error)
+
+    return render(request, "update_room.html", {"form": form, "room": room})
+    # return HttpResponse("update room")
+
+
+@login_required(login_url="/login")
+def delete_room(request, id):
+    form = RoomForm
+    return HttpResponse("delete room")
+
+def add_room(request, id):
+    mess = Mess.objects.get(id=id)
+    print(".........mess....", mess)
+    # print(mess)
+    form = RoomForm(initial={"mess": mess, "owner": mess.owner})
+    if request.method == "POST":
+        form = RoomForm(request.POST, request.FILES)
+        room = form.save(commit=False)
+        print(type(room))
+        room.mess = mess
+        room.owner = mess.owner
+        print("............")
+        print(room)
+        if form.is_valid():
+            form.save()
+            return redirect("mess_details", id=id)
+        else:
+            print("form is invalid")
+            for error in form.errors:
+                print(error)
+    return render(request, "add_room.html", {"form": form})
+
+#   {%extends 'base.html'%}
+#     {%load static%}
+#   {%block head%}
+#    {%endblock head%}
+#      {%block title%}
+#   {%endblock title%}
+#   {%block content%}
+#   {%endblock content%}

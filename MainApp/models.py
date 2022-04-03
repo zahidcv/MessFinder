@@ -127,10 +127,11 @@ class Mess(models.Model):
     meal_system = models.IntegerField(choices=cooking_system_choices)
     structure = models.IntegerField(choices=structure_choices)
     students_num = models.IntegerField()
+    distance = models.IntegerField()  # in meter
+    address = models.CharField(max_length=500, default="Default Mess Address")
     image1 = models.ImageField(upload_to="Room_Gallery", null=True)
     image2 = models.ImageField(upload_to="Room_Gallery", null=True)
     image3 = models.ImageField(upload_to="Room_Gallery", null=True)
-    distance = models.IntegerField()  # in meter
 
     def __str__(self):
         return self.name

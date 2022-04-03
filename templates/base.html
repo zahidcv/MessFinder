@@ -1,53 +1,86 @@
 {%load static%}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Font+Name"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto+Condensed"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,700"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/859be4586c.js"
+      crossorigin="anonymous"
+    ></script>
+    {% block head %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Font+Name">
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <style>
+      
+      .hello{
+        margin: auto;
+        color: rgb(213, 226, 255);
+        font-size: 22px;
+      }
+      
+      .profile-link{
+        font-size: 23px;
+        margin-right: 10px;
+        color:rgb(210, 255, 253)
+      }
+      
+      
+    </style>
+  </head>
 
-  {% block head %}{% endblock %}
-  <title>{% block title %}My amazing site{% endblock %}</title>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{%url 'shome' %}">Mess Finder</a>
+        <form class="d-flex">
 
-  <style>
-    .hello-msg {
-      font-size: 20px;
-      color: aliceblue;
-      margin-right: 20px;
+          <span class="hello">Hello,
+            <a class = 'profile-link' href="{%url 'ohome' user.id %}"> {{request.user.name}}</a>
+            </span>
+         
+            <a class="btn btn-outline-danger" href="{% url 'logout'%}">LogOut</a>
+          
+          <!-- <button class="btn btn-outline-danger" type="submit">LogOut</button> -->
+        </form>
+      </div>
+    </nav>
 
-    }
+    {% block content %}{% endblock %}
 
-    .logout {
-      border: 5px;
-      border-color: azure;
-    }
-  </style>
-</head>
-
-<body>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand">Mess Finder</a>
-      <form class="d-flex">
-        <span class="hello-msg">Hello, {{request.user.name}}</span>
-        <span><a class="hello-msg logout" href="{%url 'logout'%}">LogOut</a></span>
-        <!-- <button class="btn btn-outline-danger" type="submit">LogOut</button> -->
-      </form>
-    </div>
-  </nav>
-
-
-  {% block content %}{% endblock %}
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-</body>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    >
+      {%block script %}
+      {%endblock %}
+    </script>
+  </body>
 </html>

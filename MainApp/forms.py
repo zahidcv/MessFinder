@@ -70,3 +70,14 @@ class MessForm(ModelForm):
     class Meta:
         model = Mess
         fields = "__all__"
+
+
+class RoomForm(ModelForm):
+    class Meta:
+        model = Room
+        fields = ('room_no', 'bed_num', 'price', 'floor', 'status', 'image1', 'image2', 'image3')
+
+    # def __init__(self, *args, **kwargs):
+    #     super(RoomForm, self).__init__(*args, **kwargs)
+        # self.fields["mess"].disabled = True
+        # self.fields["email"].disabled = True

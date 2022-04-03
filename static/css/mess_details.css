@@ -1,0 +1,38 @@
+/* .row {
+  background-color: rgb(133, 182, 224);
+} */
+h1 {
+  text-transform: capitalize;
+}
+.profile {
+  background-color: rgb(237, 239, 243);
+
+  border: 1px solid rgb(224, 224, 231);
+  /* margin: 2px; */
+  padding: 5px;
+  /* text-align: center; */
+}
+.details {
+  background-color: rgb(231, 253, 244);
+}
+.propic {
+  width: 200px;
+  height: 200px;
+  border: 2px solid rgb(104, 104, 109);
+  border-radius: 50%;
+}
+a {
+  color: black;
+}
+a:hover {
+  color: firebrick;
+}
+.mess-details {
+  background-color: #e8efeb;
+  border: 1px solid rgb(224, 224, 231);
+}
+.room-details {
+  background-color: rgb(242, 251, 255);
+  border: 1px solid rgb(224, 224, 231);
+  padding: 5px;
+}

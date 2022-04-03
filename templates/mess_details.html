@@ -1,27 +1,16 @@
-{% extends 'base.html'%}
-{% load static %}
-
-
+{%extends 'base.html'%}
+{%load static%}
 {%block head%}
-
-<link type="text/css" rel="stylesheet" href="{% static 'css/ohome.css' %}" />
+<link type="text/css" rel="stylesheet" href="{% static 'css/mess_details.css' %}" />
 {%endblock head%}
+{%block title%}
+{{mess.name}}
+{%endblock title%}
+{%block content%}
 
-{% block title %}Owner Home{% endblock title%}
-
-{% block content %}
-<div class="container-fluid m-10">
-    <div class="row m-3">
-        <div class="col-lg-4 col-md-12 m-2 profile text-center">
-            <img class="propic" src="{{user.profile_pic.url}}" alt="Profile Picture">
-            <h3>{{user.name}}</h3>
-
-            <h6><i class="fa-solid fa-envelope"></i> {{user.email}}</h6>
-            <h6><i class="fas fa-phone"></i> {{user.number}}</h6>
-
-        </div>
-
-        <div class="col-lg-7 col-md-12 m-2 details">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-7 col-md-7 m-2 details">
             <h1>{{mess.name}}</h1>
             <h6>{{mess.address}} </h6>
             <hr>
@@ -55,8 +44,6 @@
                                 <th scope="col">Beds</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Update</th>
-                                <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,24 +59,29 @@
                                     <span style="color: rgb(219, 56, 15);">Unvailable</span>
                                     {% endif%}
                                 </td>
-                                <td><a href="{% url 'update_room' room.id%}">Update</a> </td>
-                                <td><a class = 'delete' href="{% url 'delete_room' room.id%}">Delete</a> </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                    
 
-                </div>
-                <div class="col">
-                    <a class = "btn btn-outline-info" href="{%url 'add_room' mess.id %}">Add Room</a>
                 </div>
 
             </div>
         </div>
+
+        <div class="col-lg-4 col-md-4 m-2 profile text-center">
+            <h2>Owner details</h2>
+            <hr>
+            <img class="propic" src="{{user.profile_pic.url}}" alt="Profile Picture">
+            <h3>{{user.name}}</h3>
+
+            <a href="mailto:{{user.email}}">
+                <h6><i class="fa-solid fa-envelope"></i> {{user.email}}</h6>
+            </a>
+
+            <h6><i class="fas fa-phone"></i> {{user.number}}</h6>
+
+        </div>
     </div>
-
-
 </div>
-
-{% endblock content %}
+{%endblock content%}
