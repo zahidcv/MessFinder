@@ -59,13 +59,15 @@ Search your Mess
 												<input type="radio" id="tin-shed" name="structure" value="3">
 												<span></span>Tin-shed
 											</label>
+											<br>
 											<label for="Single Storey">
 												<input type="radio" id="Single Storey" name="structure" value="2">
 												<span></span>Single Storey
 											</label>
+											<br>
 											<label for="Multi-storey">
 												<input type="radio" id="Multi-storey" name="structure" value="1">
-												<span></span>Multi-storey
+												<span></span>Multi Storey
 											</label>
 
 										</div>
@@ -107,12 +109,13 @@ Search your Mess
 												<input type="radio" id="bati" name="meal_system" , value="2">
 												<span></span>Bati
 											</label>
+											<br>
 
 											<label for="meal">
 												<input type="radio" id="meal" name="meal_system" value="1">
 												<span></span>Meal
 											</label>
-
+											<br>
 											<label for="own">
 												<input type="radio" id="own" name="meal_system" value="3">
 												<span></span>On Your Own
@@ -194,7 +197,11 @@ Search your Mess
 							<div class="form-btn">
 								<input type="submit" value="Search" class="submit-btn">
 							</div>
+							
 						</form>
+						<div class="form-btn">
+							<a href="{% url 'results'%}"><button style="margin-top: 5px; background: rgb(120, 195, 120);" class='submit-btn' >Show All Mess</button></a>
+						</div>
 					</div>
 				</div>
 			</div>

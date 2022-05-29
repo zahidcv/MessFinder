@@ -30,6 +30,7 @@
       href="https://fonts.googleapis.com/css?family=Lato:400,700"
       rel="stylesheet"
     />
+    <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <script
       src="https://kit.fontawesome.com/859be4586c.js"
       crossorigin="anonymous"
@@ -58,16 +59,17 @@
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <div class="container-fluid">
+
         <a class="navbar-brand" href="{%url 'shome' %}">Mess Finder</a>
         <form class="d-flex">
 
-          <span class="hello">Hello,
-            <a class = 'profile-link' href="{%url 'ohome' user.id %}"> {{request.user.name}}</a>
-            </span>
+          <span class="hello">
+            Hello, <a class = 'profile-link' href="{% url 'home' user.id %}"> {{user.email}}</a>
+          </span>
          
-            <a class="btn btn-outline-danger" href="{% url 'logout'%}">LogOut</a>
+          <a class="btn btn-outline-danger" href="{% url 'logout'%}">Log Out</a>
           
-          <!-- <button class="btn btn-outline-danger" type="submit">LogOut</button> -->
+
         </form>
       </div>
     </nav>

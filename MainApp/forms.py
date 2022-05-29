@@ -69,7 +69,19 @@ class OwnerForm(ModelForm):
 class MessForm(ModelForm):
     class Meta:
         model = Mess
-        fields = "__all__"
+        fields = (
+            'gender',
+            'name',
+            'region',
+            'structure',
+            'meal_system',
+            'students_num',
+            'distance',
+            'address',
+            'image1',
+            'image2',
+            'image3',
+        )
 
 
 class RoomForm(ModelForm):

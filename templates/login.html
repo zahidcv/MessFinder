@@ -9,52 +9,61 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <link type="text/css" rel="stylesheet" href="{% static 'css/login.css'  %}" />
-    <title>Hello, world!</title>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/shome.css' %}" />
+    <title>Login|ChangeHands</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mx-auto py-4 px-0">
-                <div class="card p-0">
-                    <div class="card-title text-center">
-                        <h5 class="mt-5">HEY, THERE</h5>
-                        <p class="font-weight-light">Login to your MessFinder account below.</p>
-                        {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    <div class="container-fluid text-center booking-form">
+        <form method='POST' class="edit-form">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1>Log IN </h1>
+                        <hr>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-danger">
+
+                                        <strong>{{ message }}</strong><br>
+
+                                    </div>
                                 {% endfor %}
-                        </ul>
-                        {% endif %}
+                            {% endif %}
+
+                        </div>
+
+                        <div class="form-group">
+                            <span class="form-label">Email Address</span>
+                            <input type="email" name="email" class="form-control" placeholder="abc@xyz.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="form-label">Password</span>
+                            <input type="password" name="password" class="form-control" placeholder="**********" required>
+                        </div>
+
+
+                        <div class="form-btn">
+                            <input type="submit" value="Log In" class="submit-btn">
+                        </div>
+
+                        <div>
+                            <a class = "toregister" href="{% url 'register' %}">Don't have an account?</a>
+                        </div>
 
                     </div>
-                    <form class="signup" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Email" name='email' />
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="password" name='password' />
-                        </div>
-                        <input type="submit" class="btn btn-primary" value='Login' />
-                        <div class="row">
-                            <div class="col-6 col-sm-6">
-                                <a href="#">
-                                    <p class="text-left pt-2 ml-1">Forgot password?</p>
-                                </a>
-                            </div>
-                            <div class="col-6 col-sm-6">
-                                <a href="{%url 'register' %}">
-                                    <p class="text-right pt-2 mr-1">Sign Up Now</p>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+
                 </div>
             </div>
-        </div>
+
+        </form>
     </div>
 
     <!-- Optional JavaScript -->

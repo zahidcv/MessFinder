@@ -13,7 +13,7 @@ h1 {
   /* text-align: center; */
 }
 .details {
-  background-color: rgb(231, 253, 244);
+  /* background-color: rgb(245, 255, 251); */
 }
 .propic {
   width: 200px;
@@ -29,12 +29,12 @@ a:hover {
   color: firebrick;
 }
 .mess-details {
-  background-color: #e8efeb;
-  border: 1px solid rgb(224, 224, 231);
+  background-color: rgb(242, 251, 255);
+  /* border: 1px solid rgb(224, 224, 231); */
 }
 .room-details {
   background-color: rgb(242, 251, 255);
-  border: 1px solid rgb(224, 224, 231);
+  /* border: 1px solid rgb(224, 224, 231); */
   padding: 5px;
 }
 .delete{
@@ -42,4 +42,9 @@ a:hover {
 }
 .delete:hover{
   color:red;
+}
+
+.one-mess{
+  border: 3px solid rgb(252, 234, 206);
+  border-radius: 5px;
 }

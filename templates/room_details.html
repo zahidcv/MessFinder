@@ -63,7 +63,7 @@ Room Details
 
 
                                     <span class="">{{room.mess.get_region_display}} area</span> <br>
-                                    <span class="">Meal System: {{room.mess.get_cooking_system_display}}</span> <br>
+                                    <span class="">Meal System: {{room.mess.get_meal_system_display}}</span> <br>
 
 
                                     <span>Structure: {{room.mess.get_structure_display}}</span> <br>
@@ -83,14 +83,14 @@ Room Details
         </div>
         <div class="row">
             <div class="col-lg-12 text-center pt-3">
-                <h4>Reviews:</h4>
+                <h4>Comments:</h4>
                 <!-- TODO: Differentiate Mess Comments and Room Comments -->
             </div>
         </div>
         {% for comment in comments %}
         <div class="row my-1">
             <div class="room-comment col-lg-12 py-1">
-                <span class='username'>{{comment.user.name}}</span> <br>
+                <span class='username'>{{comment.commenter.name}}</span> <br>
                 {{comment.content}}
                 <hr>
 
@@ -98,6 +98,24 @@ Room Details
 
         </div>
         {%endfor%}
+        <!-- new comment -->
+    <div class="row">
+        <div class="col-lg-12 text-center pt-3">
+            <h4>Leave a comment:</h4>
+        </div>
+
+        <div class="col-sm-12">
+            <form action="{% url 'comment' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="room_id" value="{{room.id}}">
+                <input type="hidden" name="user_sid" value="{{user.id}}">
+                <div class="form-group">
+                    <textarea class="form-control" name="comment" id="text" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-success my-3">Submit</button>
+            </form>
+        </div>
+    </div>
     </div>
 </div>
 {%endblock content%}

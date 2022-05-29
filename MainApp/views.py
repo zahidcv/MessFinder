@@ -13,10 +13,58 @@ from MainApp.models import *
 from .forms import *
 
 
+def home(request, id):
+    if request.user.is_superuser:
+        print('You are a SuperUser, what are you doint here? ')
+        return redirect('login')
+
+    if request.user.is_student:
+        return redirect('shome')
+    else:
+        return redirect('ohome', id = request.user.id)
+
+@login_required(login_url="/login")
 def shome(request):
 
     return render(request, "shome.html", {})
 
+
+@login_required(login_url="/login")
+def ohome(request, id):
+    # print("id", id)
+
+    user = CustomUser.objects.get(id=id)
+    if user.is_student:
+        return redirect("shome")
+    if user.is_superuser:
+        return HttpResponse("You are a SuperUser, what are you doint here? ")
+    print("user", user)
+    # print("user.is_student", user.is_student)
+    owner = Owner.objects.get(user=user)
+    print("owner", type(owner))
+    messes = Mess.objects.filter(owner=owner)
+    # print("mess", mess)
+    # rooms = Rooms.objects.filter(mess=messes)
+    # rooms  = []
+    # for mess in messes:
+    #     rooms.append(Room.objects.filter(mess=mess))
+    # rooms = {}
+    # for mess in messes:
+    #     rooms[mess] = Room.objects.filter(mess = mess)
+
+    rooms = Room.objects.filter(mess__in = messes.values_list('id'))
+    print('|'*10)
+    for room in rooms:
+        print(room)
+    return render(
+        request,
+        "ohome.html",
+        {
+            "owner": owner,
+            "messes": messes,
+            "rooms": rooms,
+        },
+    )
 
 def register(request):
 
@@ -142,26 +190,7 @@ def loginpage(request):
     return render(request, "login.html", {})
 
 
-@login_required(login_url="/login")
-def ohome(request, id):
-    # print("id", id)
-    user = CustomUser.objects.get(id=id)
-    print("user", user)
-    # print("user.is_student", user.is_student)
-    owner = Owner.objects.get(user=user)
-    print("owner", type(owner))
-    mess = Mess.objects.filter(owner=owner).first()
-    print("mess", mess)
-    rooms = Room.objects.filter(mess=mess)
-    return render(
-        request,
-        "ohome.html",
-        {
-            "owner": owner,
-            "mess": mess,
-            "rooms": rooms,
-        },
-    )
+
 
 
 @login_required(login_url="/login")
@@ -208,8 +237,8 @@ def results(request):
             mess__students_num__lte=students,
             mess__distance__lte=distance,
         )
-        print(model_to_dict(Room.objects.get(id=7)))
-        print(model_to_dict(Mess.objects.get(id=3)))
+        # print(model_to_dict(Room.objects.get(id=7)))
+        # print(model_to_dict(Mess.objects.get(id=3)))
         return render(request, "result.html", {"room_list": room_list})
     return render(request, "result.html", {"room_list": Room.objects.all()})
     # return HttpResponse("Form is not Post")
@@ -219,29 +248,80 @@ def results(request):
 def room_details(request, id):
     room = Room.objects.get(id=id)
     comments = Comment.objects.filter(room=room)
-    return render(request, "details.html", {"room": room, "comments": comments})
+    return render(request, "room_details.html", {"room": room, "comments": comments})
 
 
-def mess_details(request, id):
-    return HttpResponse("mess details page")
+
+def add_mess(request, id):
+    user = CustomUser.objects.get(id=id)
+    
+    if user.is_student:                     #checing id the requesting person is user or owner
+        return redirect("shome")
+
+    messform = MessForm()
+
+    if request.method == 'POST':
+        form = MessForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            mess = form.save(commit=False)
+            owner = Owner.objects.get(user = user)
+            mess.owner = owner
+
+            print("............")
+            print(mess)
+            mess.save()
+
+            return redirect("ohome", id=id)
 
 
-def add_mess(request):
-    pass
+        else:
+            print("form is invalid")
+            for error in form.errors:
+                print(error)
+    return render(request, 'add_mess.html', {'messform': messform})
 
 
-def add_room(request):
-    pass
+    
+
+
+def profile(request, id):
+
+    user = CustomUser.objects.get(id = id)
+    print(f"printing user.id---->{user.id}")
+    if user != request.user:
+        if request.user.is_student:
+            return redirect('shome')
+        else:
+            return redirect('ohome', id = request.user.id)
+    # print(user)
+    if user.is_superuser or user.is_staff:
+        return HttpResponse("You are SuperUser, Didn't expect you here!")
+    if user is not None:
+        if user.is_student:
+            student = Student.objects.get(user = user)
+            return render(request,'sprofile.html', {'student': student })
+        else:
+            owner  = Owner.objects.get(user = user)
+            return redirect("ohome", id = owner.id)
+    else:
+        return HttpResponse("Profile Not found")
+
+# def sprofile(request, sid):
+
 
 
 def mess_details(request, id):
     mess = Mess.objects.get(id=id)
     rooms = Room.objects.filter(mess=mess)
-    return render(request, "mess_details.html", {"mess": mess, "rooms": rooms})
+    reviews = Review.objects.filter(mess = mess)
+    return render(request, "mess_details.html", {"mess": mess, "rooms": rooms, "reviews": reviews})
 
 
 @login_required(login_url="/login")
 def update_room(request, id):
+    if request.user.id != id:
+        return redirect("shome")
     room = Room.objects.get(id=id)
     form = RoomForm(instance=room)
     if request.method == "POST":
@@ -260,9 +340,29 @@ def update_room(request, id):
 
 @login_required(login_url="/login")
 def delete_room(request, id):
-    form = RoomForm
-    return HttpResponse("delete room")
+    room = Room.objects.get(id = id)
 
+    if request.user != room.mess.owner.user:
+        return redirect("shome")
+
+    
+    
+    print('deleting room', room)
+    room.delete()
+
+    return redirect("ohome", id = request.user.id)
+
+def delete_mess(request,id):
+    mess = Mess.objects.get(id = id)
+    if request.user != mess.owner.user:
+        return redirect("shome")
+
+    mess = Mess.objects.get(id = id)
+    print('deleting mess', mess)
+    mess.delete()
+    return redirect("ohome", id = request.user.id)
+
+@login_required(login_url="/login")
 def add_room(request, id):
     mess = Mess.objects.get(id=id)
     print(".........mess....", mess)
@@ -285,11 +385,58 @@ def add_room(request, id):
                 print(error)
     return render(request, "add_room.html", {"form": form})
 
-#   {%extends 'base.html'%}
-#     {%load static%}
-#   {%block head%}
-#    {%endblock head%}
-#      {%block title%}
-#   {%endblock title%}
-#   {%block content%}
-#   {%endblock content%}
+
+
+@login_required(login_url='login')
+def comment(request):
+    if request.method == "POST":
+        room_id = request.POST.get("room_id")
+
+        comment = request.POST.get("comment")
+
+        room = Room.objects.get(id=room_id)
+      
+        comment = Comment(content=comment, room=room, commenter = request.user)
+        comment.save()
+        return redirect("room_details", id=room_id)
+    return render(request, "view_product.html", {'room': room})
+
+
+@login_required(login_url='login')
+def review(request):
+    
+    if request.method == "POST":
+        mess_id = request.POST.get("mess_id")
+        mess = Mess.objects.get(id=mess_id)
+
+        content = request.POST.get("content")
+
+        #* reviewer and owner is the same person
+        if request.user == mess.owner.user or request.user.is_superuser:
+            rooms = Room.objects.filter(mess=mess)
+            return render(request, "mess_details.html", {"mess": mess, "rooms": rooms})
+        
+      
+        review = Review(content=content, mess=mess, reviewer = request.user)
+        review.save()
+        return redirect("mess_details", id=mess_id)
+
+    rooms = Room.objects.filter(mess=mess)
+    return render(request, "mess_details.html", {"mess": mess, "rooms": rooms})
+
+
+@login_required(login_url='login')
+def edit_mess(request,id):
+    mess = Mess.objects.get(id = id)
+    messform = MessForm(instance=mess)
+    # print(mess)
+    if request.method == "POST":
+        form = MessForm(request.POST, instance=mess)
+        if form.is_valid():
+            form.save()
+            return redirect("ohome", id=mess.owner.user.id)
+        else:
+            print("form is invalid")
+            for error in form.errors:
+                print(error)
+    return render(request, 'edit_mess.html', {'messform': messform, 'mess':mess})

@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block head%}
+
+{%endblock head%}
+{%block title%}
+Student Profile
+{%endblock title%}
+{%block content%}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            {{student.sid}}
+            {{student.user.name}}
+            {{student.sid}}
+        </div>
+    </div>
+</div>
+{%endblock content%}

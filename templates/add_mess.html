@@ -3,9 +3,10 @@
 {%block head%}
 <link type="text/css" rel="stylesheet" href="{% static 'css/update_room.css' %}" />
 {%endblock head%}
-{%block title%}
-Add Room
+ {%block title%}
+ Edit Mess 
 {%endblock title%}
+
 {%block content%}
 <div class="container-fluid text-center booking-form">
     <form method='POST' class="edit-form" enctype="multipart/form-data">
@@ -13,49 +14,47 @@ Add Room
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1>Add Room</h1>
+                    <h1>Add Mess</h1>
                     <hr>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <span class="form-label">{{form.room_no.label}}</span>
-                        {{form.room_no}}
+                        <span class="form-label">Name</span>
+                        {{messform.name}}
                     </div>
                     <div class="form-group">
-                        <span class="form-label">{{form.bed_num.label}}</span>
-                        {{form.bed_num}}
+                        <span class="form-label">Gender</span>
+                        {{messform.gender}}
                     </div>
 
                     <div class="form-group">
-                        <span class="form-label">{{form.price.label}}</span>
-                        {{form.price}}
+                        <span class="form-label">Meal System</span>
+                        {{messform.meal_system}}
                     </div>
                     <div class="form-group">
-                        <span class="form-label">{{form.floor.label}}</span>
-                        {{form.floor}}
+                        <span class="form-label">Region</span>
+                        {{messform.region}}
                     </div>
                     <div class="form-group">
-                        <span class="form-label">{{form.status.label}}</span>
-                        {{form.status}}
-                    </div>
-
-                    <h5 class = ''>Room Images:</h5>
-
-                    <div class="form-group">
-
-                        {{form.image1}}
-                    </div>
-
-                    <div class="form-group">
-
-                        {{form.image2}}
+                        <span class="form-label">Structure</span>
+                        {{messform.structure}}
                     </div>
                     <div class="form-group">
-
-                        {{form.image3}}
+                        <span class="form-label">Students capacity</span>
+                        {{messform.students_num}}
                     </div>
-                    <!-- {{form.mess}} -->
-                    <!-- {{form.mess}} -->
+                    <div class="form-group">
+                        <span class="form-label">distance in meter from Main gate</span>
+                        {{messform.distance}}
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">address</span>
+                        {{messform.address}}
+                    </div>
+                    {{messform.image1}}
+                    {{messform.image2}}
+                    {{messform.image3}}
+                    <!-- {{messform.mess}} -->
                     <div class="form-btn">
                         <input type="submit" value="Add" class="submit-btn">
                     </div>
@@ -72,14 +71,13 @@ Add Room
 {% block script%}
 <script>
     element = document.querySelectorAll("input, select");
-
+    // element = element + document.getElementsByTagName("select");
 
     console.log(element);
-    for (var i = 0; i < element.length-1; i++) {
+    for (var i = 0; i < element.length -1; i++) {
         element[i].classList.add('form-control');
     }
-    document.getElementById('id_status').classList.remove('form-control');
-
+    element[element.length - 1].classList.add('form-checkbox');
 </script>
-{% endblock script%}
+{% endblock script %}
 {%endblock content%}

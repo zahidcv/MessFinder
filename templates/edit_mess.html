@@ -1,0 +1,83 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block head%}
+<link type="text/css" rel="stylesheet" href="{% static 'css/update_room.css' %}" />
+{%endblock head%}
+ {%block title%}
+ Edit Mess 
+{%endblock title%}
+
+{%block content%}
+<div class="container-fluid text-center booking-form">
+    <form method='POST' class="edit-form">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1>Update Mess {{mess.name}}</h1>
+                    <hr>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <span class="form-label">Name</span>
+                        {{messform.name}}
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">Gender</span>
+                        {{messform.gender}}
+                    </div>
+
+                    <div class="form-group">
+                        <span class="form-label">Meal System</span>
+                        {{messform.meal_system}}
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">Region</span>
+                        {{messform.region}}
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">Structure</span>
+                        {{messform.structure}}
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">Students capacity</span>
+                        {{messform.students_num}}
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">distance in meter from Main gate</span>
+                        {{messform.distance}}
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">address</span>
+                        {{messform.address}}
+                    </div>
+                    {{messform.image1}}
+                    {{messform.image2}}
+                    {{messform.image3}}
+                    <!-- {{messform.mess}} -->
+                    <div class="form-btn">
+                        <input type="submit" value="Update" class="submit-btn">
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+</div>
+{% block script%}
+<script>
+    element = document.querySelectorAll("input, select");
+    // element = element + document.getElementsByTagName("select");
+
+    console.log(element);
+    for (var i = 0; i < element.length -1; i++) {
+        element[i].classList.add('form-control');
+    }
+    element[element.length - 1].classList.add('form-checkbox');
+</script>
+{% endblock script %}
+{%endblock content%}

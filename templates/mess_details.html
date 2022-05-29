@@ -1,7 +1,10 @@
 {%extends 'base.html'%}
 {%load static%}
 {%block head%}
+<link type="text/css" rel="stylesheet" href="{% static 'css/details.css'  %}" />
 <link type="text/css" rel="stylesheet" href="{% static 'css/mess_details.css' %}" />
+
+
 {%endblock head%}
 {%block title%}
 {{mess.name}}
@@ -49,7 +52,7 @@
                         <tbody>
                             {% for room in rooms %}
                             <tr>
-                                <td>{{room.room_no}}</td>
+                                <td> <a href="{% url 'room_details' room.id %}">{{room.room_no}}</a></td>
                                 <td>{{room.floor}}</td>
                                 <td>{{room.bed_num}}</td>
                                 <td>{{room.price}}</td>
@@ -72,15 +75,53 @@
         <div class="col-lg-4 col-md-4 m-2 profile text-center">
             <h2>Owner details</h2>
             <hr>
-            <img class="propic" src="{{user.profile_pic.url}}" alt="Profile Picture">
-            <h3>{{user.name}}</h3>
+            <img class="propic" src="{{mess.owner.user.profile_pic.url}}" alt="Profile Picture">
+            <h3>{{mess.owner.user.name}}</h3>
 
-            <a href="mailto:{{user.email}}">
-                <h6><i class="fa-solid fa-envelope"></i> {{user.email}}</h6>
+            <a href="mailto:{{mess.owmer.email}}">
+                <h6><i class="fa-solid fa-envelope"></i> {{mess.owner.user.email}}</h6>
             </a>
 
-            <h6><i class="fas fa-phone"></i> {{user.number}}</h6>
+            <h6><i class="fas fa-phone"></i> {{mess.owner.user.number}}</h6>
 
+        </div>
+    </div>
+    <!-- ======================== -->
+    <!-- for comments -->
+    <div class="row comments my-5 p-3">
+        <h2>Reviews:</h2>
+        <div class="col-sm-12">
+            {% for review in reviews %}
+            <div class="row my-1">
+                <div class="product-comment col-lg-12 py-1">
+                    <span class='username'>
+                        {{review.reviewer.name}}
+                    </span> <br>
+                    {{review.content}}
+                    <hr>
+
+                </div>
+
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+    <!-- new comment -->
+    <div class="row">
+        <div class="col-lg-12 text-center pt-3">
+            <h4>Leave a Review:</h4>
+        </div>
+
+        <div class="col-sm-12">
+            <form action="{% url 'review' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="mess_id" value="{{mess.id}}">
+                <input type="hidden" name="user_id" value="{{user.id}}">
+                <div class="form-group">
+                    <textarea class="form-control" name="content" id="text" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-success my-3">Submit</button>
+            </form>
         </div>
     </div>
 </div>

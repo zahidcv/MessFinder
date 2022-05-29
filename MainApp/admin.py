@@ -29,6 +29,7 @@ class UserAdmin(BaseUserAdmin):
                     "number",
                     "profile_pic",
                     "last_login",
+                    
                 )
             },
         ),
@@ -63,7 +64,7 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
-    list_display = ("email", "name", "is_staff", "is_student")
+    list_display = ("email", "name", "is_superuser", "is_student", "id")
     list_filter = ("is_staff", "is_superuser", "is_active", "groups")
     search_fields = ("email",)
     ordering = ("email",)
@@ -93,3 +94,4 @@ admin.site.register(Student)
 admin.site.register(Mess)
 admin.site.register(Room)
 admin.site.register(Comment)
+admin.site.register(Review)
