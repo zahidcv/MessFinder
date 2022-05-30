@@ -64,10 +64,15 @@
         <form class="d-flex">
 
           <span class="hello">
-            Hello, <a class = 'profile-link' href="{% url 'home' user.id %}"> {{user.email}}</a>
+            Hello, <a class = 'profile-link' href="{% url 'home' user.id %}"> {{user.name}}</a>
           </span>
-         
-          <a class="btn btn-outline-danger" href="{% url 'logout'%}">Log Out</a>
+
+          {% if user.is_student %}
+          <span class="hello mx-3">
+            <a class="btn btn-outline-info" href="{% url 'edit_sprofile' user.id %}">Edit Profile</a>
+          </span>
+          {% endif %}
+            <a class="btn btn-outline-danger" href="{% url 'logout'%}">Log Out</a>
           
 
         </form>

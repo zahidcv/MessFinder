@@ -15,6 +15,9 @@ urlpatterns = [
     path("register/student", views.StudentRegister, name="studentregister"),
     path("register/owner", views.OwnerRegister, name="ownerregister"),
 
+    path('edit_sprofile/<int:id>', views.edit_sprofile, name = 'edit_sprofile'),
+    path('edit_oprofile/<int:id>', views.edit_oprofile, name = 'edit_oprofile'),
+    
 
     path("login", views.loginpage, name="login"),
     path("logout", views.logoutpage, name="logout"),

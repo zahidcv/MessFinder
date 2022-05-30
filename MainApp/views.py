@@ -111,7 +111,7 @@ def StudentRegister(request):
         for field in formbasic:
             for error in field.errors:
                 print(error)
-        return HttpResponse("Successful")
+        return redirect("login")
 
     dic = {"formbasic": formbasic, "formstudent": formstudent}
 
@@ -251,7 +251,7 @@ def room_details(request, id):
     return render(request, "room_details.html", {"room": room, "comments": comments})
 
 
-
+@login_required(login_url="/login")
 def add_mess(request, id):
     user = CustomUser.objects.get(id=id)
     
@@ -284,7 +284,7 @@ def add_mess(request, id):
 
     
 
-
+@login_required(login_url="/login")
 def profile(request, id):
 
     user = CustomUser.objects.get(id = id)
@@ -310,7 +310,7 @@ def profile(request, id):
 # def sprofile(request, sid):
 
 
-
+@login_required(login_url="/login")
 def mess_details(request, id):
     mess = Mess.objects.get(id=id)
     rooms = Room.objects.filter(mess=mess)
@@ -352,6 +352,7 @@ def delete_room(request, id):
 
     return redirect("ohome", id = request.user.id)
 
+@login_required(login_url="/login")
 def delete_mess(request,id):
     mess = Mess.objects.get(id = id)
     if request.user != mess.owner.user:
@@ -440,3 +441,110 @@ def edit_mess(request,id):
             for error in form.errors:
                 print(error)
     return render(request, 'edit_mess.html', {'messform': messform, 'mess':mess})
+
+
+@login_required(login_url='login')
+def edit_sprofile(request, id):
+    cuser = CustomUser.objects.get(id = id)
+    student = Student.objects.get(user = cuser)
+
+
+    formbasic = RegisterForm(instance=cuser)
+    formstudent = StudentForm(instance=student)
+
+    if request.method == "POST":
+        formbasic = RegisterForm(request.POST, instance = cuser)
+        formstudent = StudentForm(request.POST, instance = student)
+
+        # print('printing request.post ')
+        print(request.POST)
+        if formbasic.is_valid():
+            form_b = formbasic.save(commit=False)
+            # form_b.is_student = True
+            form_b.save()
+            print(formbasic.cleaned_data.get("email"))
+            print("-------Printing form_b--------")
+            print(type(form_b))
+        else:
+            print("basic invalid")
+        print("..........Custom User Obejct........")
+        print(
+            CustomUser.objects.filter(email=formbasic.cleaned_data.get("email")).first()
+        )
+
+        if formstudent.is_valid():
+            form_s = formstudent.save(commit=False)
+
+            form_s.user = CustomUser.objects.filter(
+                email=formbasic.cleaned_data.get("email")
+            ).first()
+            form_s.save()
+            print(formstudent.cleaned_data.get("department"))
+            return redirect("shome")
+        else:
+            print("stduent invalid")
+            # for field in formbasic:
+            #     for error in field.errors:
+            #         print(error)
+            for field in formstudent:
+                for error in field.errors:
+                    print(error)
+
+
+    dic = {"formbasic": formbasic, "formstudent": formstudent}
+
+    return render(request, "edit_sprofile.html", context=dic)
+
+
+
+@login_required(login_url='login')
+def edit_oprofile(request, id):
+    cuser = CustomUser.objects.get(id = id)
+    owner = Owner.objects.get(user = cuser)
+
+
+    formbasic = RegisterForm(instance=cuser)
+    formowner = OwnerForm(instance=owner)
+
+    if request.method == "POST":
+        formbasic = RegisterForm(request.POST, instance = cuser)
+        formowner = OwnerForm(request.POST, instance = owner)
+
+        # print('printing request.post ')
+        print(request.POST)
+        if formbasic.is_valid():
+            form_b = formbasic.save(commit=False)
+            # form_b.is_student = True
+            form_b.save()
+            print(formbasic.cleaned_data.get("email"))
+            print("-------Printing form_b--------")
+            print(type(form_b))
+        else:
+            print("basic invalid")
+        print("..........Custom User Obejct........")
+        print(
+            CustomUser.objects.filter(email=formbasic.cleaned_data.get("email")).first()
+        )
+
+        if formowner.is_valid():
+            form_o = formowner.save(commit=False)
+
+            form_o.user = CustomUser.objects.filter(
+                email=formbasic.cleaned_data.get("email")
+            ).first()
+            form_o.save()
+            # print(formowner.cleaned_data.get("department"))
+            return redirect("ohome", id=form_o.user.id)
+        else:
+            print("owner invalid")
+            # for field in formbasic:
+            #     for error in field.errors:
+            #         print(error)
+            for field in formowner:
+                for error in field.errors:
+                    print(error)
+
+
+    dic = {"formbasic": formbasic, "formowner": formowner}
+
+    return render(request, "oprofile_edit.html", context=dic)
