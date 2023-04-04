@@ -1,0 +1,124 @@
+{% extends 'base.html'%}
+{% load static %}
+
+
+{%block head%}
+
+<link type="text/css" rel="stylesheet" href="{% static 'css/ohome.css' %}" />
+{%endblock head%}
+
+{% block title %}Owner Home{% endblock title%}
+
+{% block content %}
+<div class="container-fluid m-10">
+    <div class="row m-3">
+        <div class="col-lg-3 col-md-12 m-2 profile text-center">
+            <h3>Owner</h3>
+            <hr>
+            <img class="propic" src="{{owner.user.profile_pic.url}}" alt="Profile Picture">
+            <h3>{{owner.user.name}}</h3>
+
+            <h6><i class="fa-solid fa-envelope"></i> {{owner.user.email}}</h6>
+            <h6><i class="fas fa-phone"></i> {{owner.user.number}}</h6>
+            <!-- <a class = "btn btn-outline-success" href="{%url 'add_mess' user.id %}">Add Mess</a>
+            <a class = "btn btn-outline-info" href="{%url 'edit_oprofile' user.id %}">Update Profile</a> -->
+
+        </div>
+        
+        <div class="col-lg-8 col-md-12  details">
+
+
+            {% for mess in messes %}
+            <div class="row my-2 one-mess py-3">
+                <div class="col">
+                    <h1>{{mess.name}}</h1>  
+                    <h6>{{mess.address}} </h6>
+                    <!-- <a class = "btn btn-outline-success" href="{%url 'edit_mess' mess.id %}"> Update Mess</a>
+                    <a class = "btn btn-outline-danger" href="{%url 'delete_mess' mess.id %}"> Delete Mess</a> -->
+                    
+                    
+                    
+                    <!-- <hr> -->
+                    <div class="mess-details p-3 my-3 mx-1">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+
+                                <h6><i class="fa-solid fa-people-group"></i> {{mess.students_num}} students</h6>
+                                <h6><i class="fa-solid fa-location-dot"></i> {{mess.get_region_display}}</h6>
+                                <h6><i class="fa-solid fa-house"></i> {{mess.get_structure_display}}</h6>
+                                <!-- <hr> -->
+                               
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+
+                                <h6><i class="fa-solid fa-venus-mars"></i> {{mess.get_gender_display}}</h6>
+                                <h6><i class="fas fa-utensils"></i> {{mess.get_meal_system_display}}</h6>
+                                <h6><i class="fas fa-road"></i> {{mess.distance}} meter from Main Gate</h6>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row room-details mx-1">
+                        <div class="col-sm-12">
+                            <h3>Rooms of {{mess.name}}</h3>
+                        </div>
+                        <div class="col-sm-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Room No.</th>
+                                        <th scope="col">Floor</th>
+                                        <th scope="col">Beds</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Status</th>
+                                        <!-- <th scope="col">Update</th>
+                                        <th scope="col">Delete</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for room in rooms %}
+                                    {%if room.mess == mess %}
+                                    <tr>
+                                        <td>{{room.room_no}}</td>
+                                        <td>{{room.floor}}</td>
+                                        <td>{{room.bed_num}}</td>
+                                        <td>{{room.price}}</td>
+                                        <td>{% if room.status%}
+                                            <span style="color: rgb(0, 126, 82);">Available</span>
+                                            {% else %}
+                                            <span style="color: rgb(219, 56, 15);">Unvailable</span>
+                                            {% endif%}
+                                        </td>
+                                        <!-- <td><a href="{% url 'update_room' room.id%}">Update</a> </td>
+                                        <td><a class = 'delete' href="{% url 'delete_room' room.id%}">Delete</a> </td> -->
+                                    </tr>
+                                    {%endif%}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+        
+                        </div>
+
+                        <!-- <div class="col">
+                            <a class = "btn btn-outline-info" href="{%url 'add_room' mess.id %}">Add Room</a>
+                        </div> -->
+        
+                    </div>
+               
+                </div> <!-- endcol -->
+
+
+                
+            </div> <!-- endrow -->
+            {%endfor%}
+            
+        </div>
+       
+    </div>
+
+
+</div>
+
+{% endblock content %}

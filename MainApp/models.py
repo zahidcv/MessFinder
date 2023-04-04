@@ -55,7 +55,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True)
     name = models.CharField(max_length=254)
     number = models.CharField(max_length=14)
-    profile_pic = models.ImageField(blank=True, upload_to="profile/")
+    profile_pic = models.ImageField(blank=True, upload_to="profile/", default="profile/pro_pic.jpg")
 
     is_student = models.BooleanField(default=0)  # 1 for student, 0 for owner
 

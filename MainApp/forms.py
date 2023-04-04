@@ -28,7 +28,7 @@ class RegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ("email", "password1", "password2", "name", "number")
+        fields = ("email", "password1", "password2", "name", "number",)
 
         widgets = {
             "username": forms.TextInput(

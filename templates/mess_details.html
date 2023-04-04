@@ -76,8 +76,8 @@
             <h2>Owner details</h2>
             <hr>
             <img class="propic" src="{{mess.owner.user.profile_pic.url}}" alt="Profile Picture">
-            <h3>{{mess.owner.user.name}}</h3>
-
+            <a href="{% url 'oprofile' mess.owner.user.id %}"><h3>{{mess.owner.user.name}}</h3> </a> 
+          
             <a href="mailto:{{mess.owmer.email}}">
                 <h6><i class="fa-solid fa-envelope"></i> {{mess.owner.user.email}}</h6>
             </a>

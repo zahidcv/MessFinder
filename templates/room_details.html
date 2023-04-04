@@ -26,12 +26,25 @@ Room Details
         </div>
         <div class="row m-0">
             <div class="col-lg-4 left-side-product-box pb-3">
-                <img src="{{room.image1.url}}" class="border p-3">
+                <div class="row">
+                    <div class="col">
+                       <a href="{{room.image1.url}}"> <img src="{{room.image1.url}}" class="border p-3"></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a href="{{room.image2.url}}"> <img src="{{room.image2.url}}" class="border "></a>
+                    </div>
+                    <div class="col">
+                        <a href="{{room.image3.url}}"> <img src="{{room.image3.url}}" class="border "></a>
+                    </div>
+                </div>
+                <!-- <img src="{{room.image1.url}}" class="border p-3">
                 <span class="sub-img">
                     <img src="{{room.image2.url}}" class="border p-2">
                     <img src="{{room.image3.url}}" class="border p-2">
 
-                </span>
+                </span> -->
             </div>
             <div class="col-lg-8">
                 <div class="right-side-pro-detail border p-3 m-0">
@@ -110,7 +123,7 @@ Room Details
                 <input type="hidden" name="room_id" value="{{room.id}}">
                 <input type="hidden" name="user_sid" value="{{user.id}}">
                 <div class="form-group">
-                    <textarea class="form-control" name="comment" id="text" rows="3"></textarea>
+                    <textarea class="form-control" name="comment" id="text" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-outline-success my-3">Submit</button>
             </form>

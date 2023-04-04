@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-
 from MainApp.models import *
 
 from .forms import *
@@ -23,9 +22,15 @@ def home(request, id):
     else:
         return redirect('ohome', id = request.user.id)
 
+
 @login_required(login_url="/login")
 def shome(request):
-
+    if request.user.is_superuser:
+        print("You are a SuperUser, what are you doing here? ")
+        return redirect('login')
+    if not request.user.is_student:
+        print("Mess Owner trying to view shome")
+        # return redirect('login') 
     return render(request, "shome.html", {})
 
 
@@ -34,10 +39,12 @@ def ohome(request, id):
     # print("id", id)
 
     user = CustomUser.objects.get(id=id)
+    if request.user != user:
+        return redirect('shome')
     if user.is_student:
         return redirect("shome")
     if user.is_superuser:
-        return HttpResponse("You are a SuperUser, what are you doint here? ")
+        return HttpResponse("You are a SuperUser, what are you doing here? ")
     print("user", user)
     # print("user.is_student", user.is_student)
     owner = Owner.objects.get(user=user)
@@ -74,14 +81,16 @@ def register(request):
 def StudentRegister(request):
     formbasic = RegisterForm
     formstudent = StudentForm
-
+    print("We Are Inside Student Register Function.")
     if request.method == "POST":
+        print("The request is POST")
         formbasic = RegisterForm(request.POST)
         formstudent = StudentForm(request.POST)
 
-        # print('printing request.post ')
+        print('*************printing request.post ')
         print(request.POST)
         if formbasic.is_valid():
+            print("formbasic is valid")
             form_b = formbasic.save(commit=False)
             form_b.is_student = True
             form_b.save()
@@ -89,13 +98,18 @@ def StudentRegister(request):
             print("-------Printing form_b--------")
             print(type(form_b))
         else:
-            print("basic invalid")
+            print("formbasic is invalid. Below is the cleasned formbasic input.")
+            print(formbasic.cleaned_data)
+            # return render(request, 'studentregister.html', {'form': formbasic,})
+            dic = {"formbasic": formbasic, "formstudent": formstudent}
+            return render(request, "student_register.html", context=dic)
         print("..........Custom User Obejct........")
         print(
             CustomUser.objects.filter(email=formbasic.cleaned_data.get("email")).first()
         )
 
         if formstudent.is_valid():
+            print("formstduent is valid")
             form_s = formstudent.save(commit=False)
 
             form_s.user = CustomUser.objects.filter(
@@ -104,7 +118,9 @@ def StudentRegister(request):
             form_s.save()
             print(formstudent.cleaned_data.get("department"))
         else:
-            print("stduent invalid")
+            print("formstduent is invalid")
+            dic = {"formbasic": formbasic, "formstudent": formstudent}
+            return render(request, "student_register.html", context=dic)
             # for field in formbasic:
             #     for error in field.errors:
             #         print(error)
@@ -128,9 +144,11 @@ def OwnerRegister(request):
 
         # print('printing request.post ')
         # print(request.POST)
+
         if formbasic.is_valid() and formowner.is_valid():
             form_b = formbasic.save(commit=False)
             form_b.is_student = False
+            # form_b
             # print("-------Printing form_b--------")
             print(type(form_b))
             form_b.save()
@@ -407,6 +425,7 @@ def comment(request):
 def review(request):
     
     if request.method == "POST":
+        print("review request recieved")
         mess_id = request.POST.get("mess_id")
         mess = Mess.objects.get(id=mess_id)
 
@@ -414,11 +433,14 @@ def review(request):
 
         #* reviewer and owner is the same person
         if request.user == mess.owner.user or request.user.is_superuser:
+            print("Reviewer and Mess owner is the same person.")
             rooms = Room.objects.filter(mess=mess)
-            return render(request, "mess_details.html", {"mess": mess, "rooms": rooms})
+            # return render(request, "mess_details.html", {"mess": mess, "rooms": rooms})
+            return redirect("mess_details", id=mess_id)
         
       
         review = Review(content=content, mess=mess, reviewer = request.user)
+        print(review)
         review.save()
         return redirect("mess_details", id=mess_id)
 
@@ -499,7 +521,10 @@ def edit_sprofile(request, id):
 
 @login_required(login_url='login')
 def edit_oprofile(request, id):
+
     cuser = CustomUser.objects.get(id = id)
+    if request.user.id != id:
+        return redirect("shome")
     owner = Owner.objects.get(user = cuser)
 
 
@@ -521,6 +546,9 @@ def edit_oprofile(request, id):
             print(type(form_b))
         else:
             print("basic invalid")
+            for field in formbasic:
+                for error in field.errors:
+                    print(error)
         print("..........Custom User Obejct........")
         print(
             CustomUser.objects.filter(email=formbasic.cleaned_data.get("email")).first()
@@ -534,7 +562,7 @@ def edit_oprofile(request, id):
             ).first()
             form_o.save()
             # print(formowner.cleaned_data.get("department"))
-            return redirect("ohome", id=form_o.user.id)
+            return redirect("ohome", id = id)
         else:
             print("owner invalid")
             # for field in formbasic:
@@ -543,8 +571,50 @@ def edit_oprofile(request, id):
             for field in formowner:
                 for error in field.errors:
                     print(error)
+            return render(request, "edit_oprofile.html", {"formbasic": formbasic, "formowner": formowner})
 
 
     dic = {"formbasic": formbasic, "formowner": formowner}
 
-    return render(request, "oprofile_edit.html", context=dic)
+    return render(request, "edit_oprofile.html", context=dic)
+
+
+@login_required(login_url="/login")
+def oprofile(request, id):
+    # print("id", id)
+
+    user = CustomUser.objects.get(id=id)
+    # if user.is_student:
+    #     return redirect("shome")
+    # if user.is_superuser:
+    #     return HttpResponse("You are a SuperUser, what are you doint here? ")
+    # print("user", user)
+    # print("user.is_student", user.is_student)
+    owner = Owner.objects.get(user=user)
+    print("owner", type(owner))
+    messes = Mess.objects.filter(owner=owner)
+    # print("mess", mess)
+    # rooms = Rooms.objects.filter(mess=messes)
+    # rooms  = []
+    # for mess in messes:
+    #     rooms.append(Room.objects.filter(mess=mess))
+    # rooms = {}
+    # for mess in messes:
+    #     rooms[mess] = Room.objects.filter(mess = mess)
+
+    rooms = Room.objects.filter(mess__in = messes.values_list('id'))
+    print('|'*10)
+    for room in rooms:
+        print(room)
+    return render(
+        request,
+        "oprofile.html",
+        {
+            "owner": owner,
+            "messes": messes,
+            "rooms": rooms,
+        },
+    )
+
+
+

@@ -23,6 +23,7 @@ urlpatterns = [
     path("logout", views.logoutpage, name="logout"),
   
     path("ohome/<int:id>", views.ohome, name="ohome"),
+    path("oprofile/<int:id>", views.oprofile, name="oprofile"),
     
     path("profile/<int:id>", views.profile, name="profile"),
 
